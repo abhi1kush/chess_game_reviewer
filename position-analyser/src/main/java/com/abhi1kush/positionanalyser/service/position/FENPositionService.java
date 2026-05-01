@@ -1,15 +1,17 @@
-package com.abhi1kush.positionanalyser.chess;
+package com.abhi1kush.positionanalyser.service.position;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.abhi1kush.positionanalyser.dto.LegalMovesResponse;
-import com.abhi1kush.positionanalyser.dto.PositionDetailedAnalysis;
-import com.abhi1kush.positionanalyser.dto.PositionSummaryAnalysis;
+import com.abhi1kush.positionanalyser.service.engine.ChessEngineService;
+import com.abhi1kush.positionanalyser.valuebeans.LegalMovesResponse;
+import com.abhi1kush.positionanalyser.valuebeans.PositionDetailedAnalysis;
+import com.abhi1kush.positionanalyser.valuebeans.PositionSummaryAnalysis;
 import com.github.bhlangonijr.chesslib.Board;
 import com.github.bhlangonijr.chesslib.Constants;
 import com.github.bhlangonijr.chesslib.Piece;
@@ -21,7 +23,14 @@ import com.github.bhlangonijr.chesslib.move.MoveGenerator;
 import com.github.bhlangonijr.chesslib.move.MoveGeneratorException;
 
 @Service
-public class ChessPositionService {
+public class FENPositionService {
+
+	private ChessEngineService chessEngineService;
+
+	@Autowired(required = false)
+	public void setChessEngineService(ChessEngineService chessEngineService) {
+		this.chessEngineService = chessEngineService;
+	}
 
 	public LegalMovesResponse legalMoves(String fen) {
 		Board board = loadBoard(fen);
@@ -50,6 +59,7 @@ public class ChessPositionService {
 		Board board = loadBoard(fen);
 		List<Move> moves = legalMovesOrThrow(board);
 		List<String> uci = moves.stream().map(Move::toString).collect(Collectors.toList());
+		ChessEngineService.EngineAnalysis engineAnalysis = analyzeWithEngineSafely(board.getFen());
 		int mw = material(board, Side.WHITE);
 		int mb = material(board, Side.BLACK);
 		Square ep = board.getEnPassant();
@@ -71,7 +81,22 @@ public class ChessPositionService {
 				castling,
 				epStr,
 				pieceCounts(board, Side.WHITE),
-				pieceCounts(board, Side.BLACK));
+				pieceCounts(board, Side.BLACK),
+				engineAnalysis != null ? engineAnalysis.getBestMoveUci() : null,
+				engineAnalysis != null ? engineAnalysis.getScoreCp() : null,
+				engineAnalysis != null ? engineAnalysis.getMateIn() : null);
+	}
+
+	private ChessEngineService.EngineAnalysis analyzeWithEngineSafely(String fen) {
+		if (chessEngineService == null) {
+			return null;
+		}
+		try {
+			return chessEngineService.analyze(fen);
+		} catch (RuntimeException e) {
+			// Engine should not break base position analysis if unavailable.
+			return null;
+		}
 	}
 
 	private static List<Move> legalMovesOrThrow(Board board) {

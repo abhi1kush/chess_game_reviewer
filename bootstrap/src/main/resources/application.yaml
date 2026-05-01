@@ -25,3 +25,26 @@ app:
     allowed-origin-patterns:
       - "http://localhost:*"
       - "http://127.0.0.1:*"
+
+stockfish:
+  host: ${STOCKFISH_HOST:localhost}
+  port: ${STOCKFISH_PORT:8088}
+  depth: ${STOCKFISH_DEPTH:12}
+  connect-timeout-ms: ${STOCKFISH_CONNECT_TIMEOUT_MS:2000}
+  read-timeout-ms: ${STOCKFISH_READ_TIMEOUT_MS:8000}
+  pool:
+    size: ${STOCKFISH_POOL_SIZE:2}
+    borrow-timeout-ms: ${STOCKFISH_BORROW_TIMEOUT_MS:3000}
+
+review:
+  engine:
+    depth:
+      quick: ${REVIEW_ENGINE_DEPTH_QUICK:8}
+      standard: ${REVIEW_ENGINE_DEPTH_STANDARD:12}
+      deep: ${REVIEW_ENGINE_DEPTH_DEEP:16}
+  job:
+    maxConcurrent: ${REVIEW_JOB_MAX_CONCURRENT:2}
+    maxQueueSize: ${REVIEW_JOB_MAX_QUEUE_SIZE:100}
+  cache:
+    enabled: ${REVIEW_CACHE_ENABLED:true}
+    ttlSeconds: ${REVIEW_CACHE_TTL_SECONDS:604800}
