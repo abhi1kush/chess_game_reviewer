@@ -1,6 +1,35 @@
 # spring-chess-backend
 Springboot chess backend.
 
+## Run as Containers
+
+Build and run Spring Boot server with PostgreSQL, Redis, and Stockfish:
+
+```bash
+docker compose up --build
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+The API server is available at:
+
+- `http://localhost:8081`
+
+Container ports:
+
+- PostgreSQL: `localhost:5432`
+- Redis: `localhost:6379`
+- Stockfish TCP (UCI bridge): `localhost:8088`
+
+Stockfish is available to the Spring container via:
+
+- `STOCKFISH_HOST=stockfish`
+- `STOCKFISH_PORT=8080`
+
 ## Encrypted Registration API Envelope
 
 The registration API uses an encrypted envelope for both request and response:
@@ -52,17 +81,8 @@ curl -X POST "http://localhost:8081/api/v1/registrations/crypto-utils/decrypt-re
   -d '{"data":"<base64>","token":"<base64>","digiSign":"<base64>"}'
 ```
 
-## registration-store Test Matrix
-
-| Layer | Test Class | Covered Scenarios |
-| --- | --- | --- |
-| Controller | `RegistrationControllerTest` | Success (201), validation error (400), duplicate key (409), system/app error (500), suspicious input error (400), unexpected exception (500) |
-| Controller | `RegistrationCryptoUtilityControllerTest` | Encrypt success (200), decrypt success (200), encrypt bad request via domain exception (400), encrypt unexpected exception (500), decrypt bad request via domain exception (400), decrypt unexpected exception (500) |
-| Service | `RegistrationServiceImplTest` | Success response + DAO insert verification, serialization failure mapping, persistence exception propagation, bean validation failure, SQL-injection guard failure |
-| DAO | `RegistrationDaoImplTest` | PostgreSQL SQL selection, Oracle SQL selection, duplicate key rethrow, `DataAccessException` to `SystemException` mapping |
-
 ### Command To Run Unit Tests
 
 ```bash
-mvn -pl registration-store -am test -DfailIfNoTests=false
+mvn test -DfailIfNoTests=false
 ```

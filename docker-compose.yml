@@ -1,0 +1,68 @@
+services:
+  chess-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chess-server
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      stockfish:
+        condition: service_started
+    environment:
+      SERVER_PORT: 8081
+      DB_URL: jdbc:postgresql://postgres:5432/chess_backend
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_VENDOR: postgresql
+      DB_PLATFORM: postgresql
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      STOCKFISH_HOST: stockfish
+      STOCKFISH_PORT: 8080
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: chess-postgres
+    environment:
+      POSTGRES_DB: chess_backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chess_backend"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: chess-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    restart: unless-stopped
+
+  stockfish:
+    build:
+      context: .
+      dockerfile: Dockerfile.stockfish
+    container_name: chess-stockfish
+    ports:
+      - "8088:8080"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:

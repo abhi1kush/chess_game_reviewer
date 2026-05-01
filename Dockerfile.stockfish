@@ -1,0 +1,10 @@
+FROM debian:bookworm-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends stockfish socat \
+    && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 8080
+
+# Expose Stockfish UCI protocol over TCP for other services.
+ENTRYPOINT ["/bin/sh", "-c", "socat TCP-LISTEN:8080,reuseaddr,fork EXEC:/usr/games/stockfish,pty,stderr"]

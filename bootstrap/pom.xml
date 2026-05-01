@@ -18,11 +18,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.abhi1kush</groupId>
-			<artifactId>registration-store</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.abhi1kush</groupId>
 			<artifactId>position-analyser</artifactId>
 			<version>${project.version}</version>
 		</dependency>

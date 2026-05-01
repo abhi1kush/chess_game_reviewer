@@ -18,13 +18,12 @@
 	<description>Chess Analysis tool</description>
 
 	<modules>
-		<module>registration-store</module>
 		<module>position-analyser</module>
 		<module>bootstrap</module>
 	</modules>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 		<chesslib.version>1.3.6</chesslib.version>
 	</properties>
 
@@ -43,11 +42,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>com.abhi1kush</groupId>
-				<artifactId>registration-store</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>com.abhi1kush</groupId>
 				<artifactId>position-analyser</artifactId>
