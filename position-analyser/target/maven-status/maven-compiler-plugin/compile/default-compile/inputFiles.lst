@@ -1,8 +1,0 @@
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/api/ChessPositionController.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/dto/PositionDetailedAnalysis.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/dto/LegalMovesResponse.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/chess/ChessPositionService.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/api/HealthController.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/dto/PositionSummaryAnalysis.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/api/GlobalExceptionHandler.java
-/Users/abhisheksingh/work/java/spring-chess-backend/position-analyser/src/main/java/com/abhi1kush/positionanalyser/dto/FenRequest.java
