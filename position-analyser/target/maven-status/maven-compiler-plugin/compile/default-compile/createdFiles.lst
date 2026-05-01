@@ -1,0 +1,9 @@
+com/abhi1kush/positionanalyser/dto/PositionDetailedAnalysis.class
+com/abhi1kush/positionanalyser/api/HealthController.class
+com/abhi1kush/positionanalyser/dto/PositionSummaryAnalysis.class
+com/abhi1kush/positionanalyser/chess/ChessPositionService$1.class
+com/abhi1kush/positionanalyser/api/GlobalExceptionHandler.class
+com/abhi1kush/positionanalyser/dto/FenRequest.class
+com/abhi1kush/positionanalyser/chess/ChessPositionService.class
+com/abhi1kush/positionanalyser/api/ChessPositionController.class
+com/abhi1kush/positionanalyser/dto/LegalMovesResponse.class
